@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./templates/**/*.html",
+    "../nimsforestwebviewer/**/templates/**/*.html",
     "../**/templates/**/*.html",
   ],
   theme: {
