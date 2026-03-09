@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="10">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="bg-forest-dark text-gray-200 min-h-screen flex flex-col">
+    <header class="bg-forest-darker border-b border-forest-green/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🌲</span>
+                    <a href="/" class="text-xl font-bold">
+                        <span class="text-forest-green">Nims</span><span class="text-solar-gold">Forest</span>
+                    </a>
+                </div>
+                <nav class="flex items-center gap-6 text-sm">
+                    <a href="/" class="text-gray-400 hover:text-forest-green transition-colors">Overview</a>
+                    <a href="/lands" class="text-gray-400 hover:text-forest-green transition-colors">Lands</a>
+                    <a href="/containers" class="text-gray-400 hover:text-forest-green transition-colors">Containers</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {{template "content" .}}
+    </main>
+
+    <footer class="border-t border-forest-green/10 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
+            NimsForest Dashboard &middot; Auto-refreshes every 10s
+        </div>
+    </footer>
+</body>
+</html>

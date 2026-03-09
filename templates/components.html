@@ -1,0 +1,88 @@
+{{define "stat-card"}}
+{{/* Expects: .Label, .Value, .Icon, .Color (optional, defaults to forest-green) */}}
+<div class="bg-forest-darker rounded-xl border border-forest-green/10 p-5">
+    <div class="flex items-center gap-3 mb-2">
+        <span class="text-lg">{{.Icon}}</span>
+        <span class="text-xs text-gray-500 uppercase tracking-wider">{{.Label}}</span>
+    </div>
+    <div class="text-2xl font-bold {{if .Color}}{{.Color}}{{else}}text-forest-green{{end}}">
+        {{.Value}}
+    </div>
+</div>
+{{end}}
+
+{{define "status-badge"}}
+{{/* Expects a status string */}}
+{{if eq . "running"}}
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-forest-green/10 text-forest-green">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-green animate-pulse"></span>
+        running
+    </span>
+{{else if eq . "stopped"}}
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+        stopped
+    </span>
+{{else}}
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+        {{.}}
+    </span>
+{{end}}
+{{end}}
+
+{{define "progress-bar"}}
+{{/* Expects: .Percent (float64), .Label (string) */}}
+<div class="w-full">
+    {{if .Label}}<div class="text-xs text-gray-500 mb-1">{{.Label}}</div>{{end}}
+    <div class="w-full bg-forest-dark rounded-full h-2.5 overflow-hidden">
+        <div class="h-full rounded-full transition-all duration-500
+            {{if gt .Percent 80.0}}bg-red-400{{else if gt .Percent 60.0}}bg-solar-gold{{else}}bg-forest-green{{end}}"
+            style="width: {{printf "%.0f" .Percent}}%">
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "land-card"}}
+{{/* Expects a LandViewModel-like struct */}}
+<div class="bg-forest-darker rounded-xl border border-forest-green/10 p-5 hover:border-forest-green/30 transition-colors">
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+            {{if .HasMana}}
+                <span class="text-solar-gold text-lg" title="Manaland">&#x2728;</span>
+            {{else}}
+                <span class="text-forest-green text-lg">&#x1F333;</span>
+            {{end}}
+            <h3 class="font-semibold text-white">{{.Hostname}}</h3>
+        </div>
+        <span class="text-xs text-gray-500">{{.ID}}</span>
+    </div>
+    <div class="grid grid-cols-2 gap-3 text-sm">
+        <div>
+            <span class="text-gray-500">CPU</span>
+            <div class="text-white">{{.CPUCores}} cores</div>
+        </div>
+        <div>
+            <span class="text-gray-500">RAM</span>
+            <div class="text-white">{{formatBytes .RAMTotal}}</div>
+        </div>
+        {{if .HasMana}}
+        <div>
+            <span class="text-gray-500">Mana (VRAM)</span>
+            <div class="text-solar-gold">{{formatBytes .GPUVram}}</div>
+        </div>
+        {{end}}
+        <div>
+            <span class="text-gray-500">Processes</span>
+            <div class="text-white">{{.ProcessCount}}</div>
+        </div>
+    </div>
+    <div class="mt-4">
+        {{template "progress-bar" (dict "Percent" .Occupancy "Label" "RAM Usage")}}
+    </div>
+    <div class="mt-3 text-xs text-gray-500">
+        Last seen: {{timeAgo .LastSeen}}
+    </div>
+</div>
+{{end}}
