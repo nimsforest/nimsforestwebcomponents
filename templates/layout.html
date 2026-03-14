@@ -6,26 +6,26 @@
     <title>{{.Title}}</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="bg-forest-dark text-gray-200 min-h-screen flex flex-col">
-    <header class="bg-forest-darker border-b border-forest-green/20">
+<body class="bg-forest-bg text-soil min-h-screen flex flex-col">
+    <header class="bg-white border-b border-sprout/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">🌲</span>
                     <a href="/" class="text-xl font-bold">
-                        <span class="text-forest-green">Nims</span><span class="text-solar-gold">Forest</span>
+                        <span class="text-canopy">Nims</span><span class="text-solar-gold">Forest</span>
                     </a>
                 </div>
                 <nav class="flex items-center gap-6 text-sm">
-                    <a href="/" class="text-gray-400 hover:text-forest-green transition-colors">Overview</a>
-                    <a href="/lands" class="text-gray-400 hover:text-forest-green transition-colors">Lands</a>
-                    <a href="/containers" class="text-gray-400 hover:text-forest-green transition-colors">Containers</a>
-                    <a href="/trees" class="text-gray-400 hover:text-forest-green transition-colors">Trees</a>
-                    <a href="/treehouses" class="text-gray-400 hover:text-solar-gold transition-colors">Treehouses</a>
-                    <a href="/nims" class="text-gray-400 hover:text-life-blue transition-colors">Nims</a>
-                    <a href="/songbirds" class="text-gray-400 hover:text-purple-400 transition-colors">Songbirds</a>
-                    <a href="/sources" class="text-gray-400 hover:text-emerald-400 transition-colors">Sources</a>
-                    <a href="/infrastructure" class="text-gray-400 hover:text-cyan-400 transition-colors">Infrastructure</a>
+                    <a href="/" class="text-soil hover:text-forest-green transition-colors">Overview</a>
+                    <a href="/lands" class="text-soil hover:text-forest-green transition-colors">Lands</a>
+                    <a href="/containers" class="text-soil hover:text-forest-green transition-colors">Containers</a>
+                    <a href="/trees" class="text-soil hover:text-forest-green transition-colors">Trees</a>
+                    <a href="/treehouses" class="text-soil hover:text-forest-green transition-colors">Treehouses</a>
+                    <a href="/nims" class="text-soil hover:text-forest-green transition-colors">Nims</a>
+                    <a href="/songbirds" class="text-soil hover:text-forest-green transition-colors">Songbirds</a>
+                    <a href="/sources" class="text-soil hover:text-forest-green transition-colors">Sources</a>
+                    <a href="/infrastructure" class="text-soil hover:text-forest-green transition-colors">Infrastructure</a>
                 </nav>
             </div>
         </div>
@@ -35,8 +35,8 @@
         {{template "content" .}}
     </main>
 
-    <footer class="border-t border-forest-green/10 py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
+    <footer class="border-t border-sprout/30 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-soil/60">
             NimsForest Dashboard &middot; Live updates via HTMX
         </div>
     </footer>

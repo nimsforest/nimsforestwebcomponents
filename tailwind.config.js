@@ -8,14 +8,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'forest-dark': '#1a1a2e',
-        'forest-darker': '#141425',
-        'forest-green': '#2ecc71',
-        'forest-green-dark': '#27ae60',
-        'solar-gold': '#f39c12',
-        'solar-gold-dark': '#d68910',
-        'life-blue': '#3498db',
-        'bark-brown': '#8b6914',
+        'forest-bg': '#F8FAF5',
+        'forest-card': '#FFFFFF',
+        'forest-green': '#4AA847',
+        'forest-green-dark': '#3d8f3c',
+        'canopy': '#1E3A1C',
+        'solar-gold': '#E8B931',
+        'solar-gold-dark': '#c9a029',
+        'soil': '#6B5B4E',
+        'sprout': '#A8D5A2',
+      },
+      fontFamily: {
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
     },
   },
