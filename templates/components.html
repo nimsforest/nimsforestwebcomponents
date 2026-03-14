@@ -44,6 +44,14 @@
 </div>
 {{end}}
 
+{{define "filter-bar"}}
+{{/* Expects: .Placeholder (string) */}}
+<div class="mb-6">
+    <input id="filter-input" type="text" placeholder="{{.Placeholder}}"
+        class="w-full sm:w-80 bg-forest-darker border border-forest-green/20 rounded-lg px-4 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-forest-green/50">
+</div>
+{{end}}
+
 {{define "connection-status"}}
 {{/* Expects: .Connected (bool), .LastUpdated (time.Time) */}}
 <div class="flex items-center gap-2 text-sm">

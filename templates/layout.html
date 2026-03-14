@@ -41,5 +41,20 @@
         </div>
     </footer>
     <script src="/static/htmx.min.js"></script>
+    <script>
+    function applyFilter() {
+        var input = document.getElementById('filter-input');
+        if (!input) return;
+        var term = input.value.toLowerCase();
+        document.querySelectorAll('[data-filterable]').forEach(function(el) {
+            var name = (el.getAttribute('data-name') || '').toLowerCase();
+            el.style.display = name.indexOf(term) !== -1 ? '' : 'none';
+        });
+    }
+    document.addEventListener('input', function(e) {
+        if (e.target.id === 'filter-input') applyFilter();
+    });
+    document.addEventListener('htmx:afterSwap', applyFilter);
+    </script>
 </body>
 </html>
