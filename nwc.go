@@ -82,6 +82,12 @@ func FuncMap() template.FuncMap {
 				return "text-gray-400"
 			}
 		},
+		"formatTimestamp": func(t time.Time) string {
+			if t.IsZero() {
+				return ""
+			}
+			return t.UTC().Format("2006-01-02 15:04:05 UTC")
+		},
 		"add": func(a, b int) int { return a + b },
 		"dict": func(pairs ...any) map[string]any {
 			m := make(map[string]any, len(pairs)/2)
@@ -211,6 +217,26 @@ func (r *Renderer) Render(w http.ResponseWriter, page string, title string, data
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := t.ExecuteTemplate(w, "layout.html", pd); err != nil {
 		log.Printf("nwc: render error for %s: %v", page, err)
+	}
+}
+
+// RenderFragment executes only the "content" block of the named page template,
+// without the surrounding layout. Used for HTMX partial responses.
+func (r *Renderer) RenderFragment(w http.ResponseWriter, page string, title string, data any) {
+	t, ok := r.templates[page]
+	if !ok {
+		http.Error(w, "template not found: "+page, http.StatusInternalServerError)
+		return
+	}
+
+	pd := PageData{
+		Title: title,
+		Data:  data,
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := t.ExecuteTemplate(w, "content", pd); err != nil {
+		log.Printf("nwc: render fragment error for %s: %v", page, err)
 	}
 }
 

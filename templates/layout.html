@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="10">
     <title>{{.Title}}</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -38,8 +37,9 @@
 
     <footer class="border-t border-forest-green/10 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
-            NimsForest Dashboard &middot; Auto-refreshes every 10s
+            NimsForest Dashboard &middot; Live updates via HTMX
         </div>
     </footer>
+    <script src="/static/htmx.min.js"></script>
 </body>
 </html>

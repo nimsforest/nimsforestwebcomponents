@@ -44,6 +44,24 @@
 </div>
 {{end}}
 
+{{define "connection-status"}}
+{{/* Expects: .Connected (bool), .LastUpdated (time.Time) */}}
+<div class="flex items-center gap-2 text-sm">
+    {{if .Connected}}
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-forest-green/10 text-forest-green">
+        <span class="w-1.5 h-1.5 rounded-full bg-forest-green animate-pulse"></span>
+        Live
+    </span>
+    <span class="text-gray-500 text-xs" title="{{formatTimestamp .LastUpdated}}">{{timeAgo .LastUpdated}}</span>
+    {{else}}
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+        Offline
+    </span>
+    {{end}}
+</div>
+{{end}}
+
 {{define "land-card"}}
 {{/* Expects a LandViewModel-like struct */}}
 <div class="bg-forest-darker rounded-xl border border-forest-green/10 p-5 hover:border-forest-green/30 transition-colors">
