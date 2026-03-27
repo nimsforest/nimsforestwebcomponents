@@ -8,19 +8,36 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
+
+// NavItem represents a single navigation link in the app header.
+type NavItem struct {
+	Label string
+	Href  string
+}
+
+// AppConfig configures the shared layout for a specific NimsForest application.
+type AppConfig struct {
+	Name     string    // displayed after "Nims" in header, e.g. "Organize", "Forest"
+	Emoji    string    // header emoji, e.g. "🌿", "🌲"
+	NavItems []NavItem // app-specific navigation links
+	Footer   string    // footer text (defaults to "NimsForest" if empty)
+}
 
 // Renderer composes shared layout templates with project-specific page templates.
 type Renderer struct {
 	templates map[string]*template.Template
 	funcMap   template.FuncMap
+	config    AppConfig
 }
 
 // PageData is the standard data envelope passed to all templates.
 type PageData struct {
 	Title string
 	Data  any
+	App   AppConfig
 }
 
 // FuncMap returns the standard template function map for NimsForest UIs.
@@ -37,6 +54,12 @@ func FuncMap() template.FuncMap {
 			}
 			mb := float64(bytes) / (1024 * 1024)
 			return template.HTMLEscapeString(formatFloat(mb) + " MB")
+		},
+		"formatDate": func(t time.Time) string {
+			if t.IsZero() {
+				return ""
+			}
+			return t.Format("02 Jan 2006")
 		},
 		"timeAgo": func(t time.Time) string {
 			if t.IsZero() {
@@ -88,7 +111,8 @@ func FuncMap() template.FuncMap {
 			}
 			return t.UTC().Format("2006-01-02 15:04:05 UTC")
 		},
-		"add": func(a, b int) int { return a + b },
+		"lower": strings.ToLower,
+		"add":   func(a, b int) int { return a + b },
 		"dict": func(pairs ...any) map[string]any {
 			m := make(map[string]any, len(pairs)/2)
 			for i := 0; i < len(pairs)-1; i += 2 {
@@ -162,15 +186,21 @@ func formatInt(i int) string {
 // projectFS should contain templates in the given dir (e.g. "templates").
 // pages lists the template filenames to compose with the layout.
 // extraFuncs is merged with the standard FuncMap.
-func NewRenderer(projectFS fs.FS, dir string, pages []string, extraFuncs template.FuncMap) *Renderer {
+// config provides app-specific branding and navigation for the shared layout.
+func NewRenderer(projectFS fs.FS, dir string, pages []string, extraFuncs template.FuncMap, config AppConfig) *Renderer {
 	fm := FuncMap()
 	for k, v := range extraFuncs {
 		fm[k] = v
 	}
 
+	if config.Footer == "" {
+		config.Footer = "NimsForest"
+	}
+
 	r := &Renderer{
 		templates: make(map[string]*template.Template),
 		funcMap:   fm,
+		config:    config,
 	}
 
 	// Read shared templates
@@ -212,6 +242,7 @@ func (r *Renderer) Render(w http.ResponseWriter, page string, title string, data
 	pd := PageData{
 		Title: title,
 		Data:  data,
+		App:   r.config,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -232,6 +263,7 @@ func (r *Renderer) RenderFragment(w http.ResponseWriter, page string, title stri
 	pd := PageData{
 		Title: title,
 		Data:  data,
+		App:   r.config,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

@@ -70,6 +70,33 @@
 </div>
 {{end}}
 
+{{define "breadcrumbs"}}
+{{/* Expects: slice of structs with .Label and .Href fields */}}
+<div class="text-sm text-soil/60 mb-4">
+    {{range .}}<a href="{{.Href}}" class="hover:text-forest-green transition-colors">{{.Label}}</a><span class="mx-1.5">/</span>{{end}}
+</div>
+{{end}}
+
+{{define "document-card"}}
+{{/* Expects: .Title, .Excerpt, .Href, .ModTime (time.Time) */}}
+<a href="{{.Href}}" class="block py-2.5 border-b border-sprout/30 last:border-0 hover:text-forest-green transition-colors">
+    <div class="flex items-center justify-between">
+        <span class="text-canopy font-medium">{{.Title}}</span>
+        <span class="text-xs text-soil/60">{{formatDate .ModTime}}</span>
+    </div>
+    {{if .Excerpt}}<div class="text-xs text-soil/50 mt-0.5">{{.Excerpt}}</div>{{end}}
+</a>
+{{end}}
+
+{{define "folder-card"}}
+{{/* Expects: .Label, .Description, .Href, .Count (int) */}}
+<a href="{{.Href}}" class="block bg-forest-card rounded-xl border border-sprout/30 p-5 hover:border-forest-green/50 transition-colors">
+    <div class="text-sm font-semibold text-canopy mb-1">{{.Label}}</div>
+    {{if .Description}}<div class="text-xs text-soil/50 mb-1.5">{{.Description}}</div>{{end}}
+    <div class="text-xs text-soil/60">{{.Count}} items</div>
+</a>
+{{end}}
+
 {{define "land-card"}}
 {{/* Expects a LandViewModel-like struct */}}
 <div class="bg-forest-card rounded-xl border border-sprout/30 p-5 hover:border-forest-green/50 transition-colors">

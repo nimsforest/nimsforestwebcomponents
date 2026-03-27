@@ -11,23 +11,18 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
-                    <span class="text-2xl">🌲</span>
+                    <span class="text-2xl">{{.App.Emoji}}</span>
                     <a href="/" class="text-xl font-bold">
-                        <span class="text-canopy">Nims</span><span class="text-solar-gold">Forest</span>
+                        <span class="text-canopy">Nims</span><span class="text-solar-gold">{{.App.Name}}</span>
                     </a>
                 </div>
+                {{if .App.NavItems}}
                 <nav class="flex items-center gap-6 text-sm">
-                    <a href="/" class="text-soil hover:text-forest-green transition-colors">Overview</a>
-                    <a href="/sources" class="text-soil hover:text-forest-green transition-colors">Sources</a>
-                    <a href="/trees" class="text-soil hover:text-forest-green transition-colors">Trees</a>
-                    <a href="/treehouses" class="text-soil hover:text-forest-green transition-colors">Treehouses</a>
-                    <a href="/nims" class="text-soil hover:text-forest-green transition-colors">Nims</a>
-                    <a href="/songbirds" class="text-soil hover:text-forest-green transition-colors">Songbirds</a>
-                    <a href="/agents" class="text-soil hover:text-forest-green transition-colors">Agents</a>
-                    <a href="/lands" class="text-soil hover:text-forest-green transition-colors">Lands</a>
-                    <a href="/containers" class="text-soil hover:text-forest-green transition-colors">Containers</a>
-                    <a href="/infrastructure" class="text-soil hover:text-forest-green transition-colors">Infrastructure</a>
+                    {{range .App.NavItems}}
+                    <a href="{{.Href}}" class="text-soil hover:text-forest-green transition-colors">{{.Label}}</a>
+                    {{end}}
                 </nav>
+                {{end}}
             </div>
         </div>
     </header>
@@ -38,7 +33,7 @@
 
     <footer class="border-t border-sprout/30 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-soil/60">
-            NimsForest Dashboard &middot; Live updates via HTMX
+            {{.App.Footer}}
         </div>
     </footer>
     <script src="/static/htmx.min.js"></script>
