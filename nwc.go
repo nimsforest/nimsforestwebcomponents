@@ -21,7 +21,8 @@ type NavItem struct {
 
 // ChatWidgetConfig configures the embedded nim chat widget.
 type ChatWidgetConfig struct {
-	BaseURL    string // widget server URL, e.g. "https://chatwidget.nimsforest.mynimsforest.com"
+	BaseURL    string // widget JS server URL, e.g. "https://chatwidget.nimsforest.mynimsforest.com"
+	WebchatURL string // webchat iframe URL, e.g. "https://webchat.nimsforest.mynimsforest.com"
 	DefaultNim string // optional default nim selection
 }
 

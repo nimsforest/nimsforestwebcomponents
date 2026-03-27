@@ -55,7 +55,8 @@
     {{if .App.ChatWidget}}
     <script>
     window.nimschatwidgetConfig = {
-        baseURL: "{{.App.ChatWidget.BaseURL}}"{{if .App.ChatWidget.DefaultNim}},
+        baseURL: "{{.App.ChatWidget.BaseURL}}",
+        webchatURL: "{{.App.ChatWidget.WebchatURL}}"{{if .App.ChatWidget.DefaultNim}},
         defaultNim: "{{.App.ChatWidget.DefaultNim}}"{{end}}
     };
     </script>
