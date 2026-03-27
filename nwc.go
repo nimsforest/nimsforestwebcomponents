@@ -121,6 +121,7 @@ func FuncMap() template.FuncMap {
 		},
 		"lower": strings.ToLower,
 		"add":   func(a, b int) int { return a + b },
+		"renderMarkdown": RenderMarkdown,
 		"dict": func(pairs ...any) map[string]any {
 			m := make(map[string]any, len(pairs)/2)
 			for i := 0; i < len(pairs)-1; i += 2 {
@@ -211,17 +212,7 @@ func NewRenderer(projectFS fs.FS, dir string, pages []string, extraFuncs templat
 		config:    config,
 	}
 
-	// Read shared templates
-	layoutBytes, err := fs.ReadFile(templates, "templates/layout.html")
-	if err != nil {
-		log.Fatalf("nwc: failed to read layout.html: %v", err)
-	}
-	componentsBytes, err := fs.ReadFile(templates, "templates/components.html")
-	if err != nil {
-		log.Fatalf("nwc: failed to read components.html: %v", err)
-	}
-
-	return r.buildTemplates(projectFS, dir, pages, nil, layoutBytes, componentsBytes, fm)
+	return r.initAndBuild(projectFS, dir, pages, nil, fm)
 }
 
 // NewRendererWithShared works like NewRenderer but also includes project-level
@@ -242,15 +233,6 @@ func NewRendererWithShared(projectFS fs.FS, dir string, pages []string, shared [
 		config:    config,
 	}
 
-	layoutBytes, err := fs.ReadFile(templates, "templates/layout.html")
-	if err != nil {
-		log.Fatalf("nwc: failed to read layout.html: %v", err)
-	}
-	componentsBytes, err := fs.ReadFile(templates, "templates/components.html")
-	if err != nil {
-		log.Fatalf("nwc: failed to read components.html: %v", err)
-	}
-
 	// Read project-level shared templates
 	var sharedBytes [][]byte
 	for _, s := range shared {
@@ -261,10 +243,24 @@ func NewRendererWithShared(projectFS fs.FS, dir string, pages []string, shared [
 		sharedBytes = append(sharedBytes, b)
 	}
 
-	return r.buildTemplates(projectFS, dir, pages, sharedBytes, layoutBytes, componentsBytes, fm)
+	return r.initAndBuild(projectFS, dir, pages, sharedBytes, fm)
 }
 
-func (r *Renderer) buildTemplates(projectFS fs.FS, dir string, pages []string, sharedBytes [][]byte, layoutBytes, componentsBytes []byte, fm template.FuncMap) *Renderer {
+func (r *Renderer) initAndBuild(projectFS fs.FS, dir string, pages []string, sharedBytes [][]byte, fm template.FuncMap) *Renderer {
+	// Read nwc shared templates
+	layoutBytes, err := fs.ReadFile(templates, "templates/layout.html")
+	if err != nil {
+		log.Fatalf("nwc: failed to read layout.html: %v", err)
+	}
+	componentsBytes, err := fs.ReadFile(templates, "templates/components.html")
+	if err != nil {
+		log.Fatalf("nwc: failed to read components.html: %v", err)
+	}
+	editorBytes, err := fs.ReadFile(templates, "templates/editor.html")
+	if err != nil {
+		log.Fatalf("nwc: failed to read editor.html: %v", err)
+	}
+
 	for _, page := range pages {
 		path := dir + "/" + page
 		pageBytes, err := fs.ReadFile(projectFS, path)
@@ -275,6 +271,7 @@ func (r *Renderer) buildTemplates(projectFS fs.FS, dir string, pages []string, s
 		t := template.New("layout.html").Funcs(fm)
 		template.Must(t.Parse(string(layoutBytes)))
 		template.Must(t.New("components.html").Parse(string(componentsBytes)))
+		template.Must(t.New("editor.html").Parse(string(editorBytes)))
 		for i, sb := range sharedBytes {
 			template.Must(t.New(fmt.Sprintf("shared_%d", i)).Parse(string(sb)))
 		}

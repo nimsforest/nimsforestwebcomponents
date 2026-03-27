@@ -1,0 +1,46 @@
+{{define "markdown-viewer"}}
+{{/* Expects: HTML content (template.HTML) passed directly */}}
+<div class="prose prose-sm max-w-none
+    prose-headings:text-canopy prose-p:text-soil/80 prose-li:text-soil/80
+    prose-strong:text-canopy prose-a:text-forest-green
+    prose-code:text-forest-green prose-code:bg-forest-bg prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+    prose-hr:border-sprout/30
+    prose-table:text-sm prose-th:text-canopy prose-td:text-soil/70
+    [&>h1]:hidden">{{.}}</div>
+{{end}}
+
+{{define "markdown-editor"}}
+{{/* Expects: MarkdownEditorData struct with Content, SaveURL, CancelURL, Target, IsNew, Filename, Placeholder, Rows */}}
+<form {{if .Target}}hx-post="{{.SaveURL}}" hx-target="{{.Target}}"{{else}}action="{{.SaveURL}}" method="POST"{{end}}
+    class="space-y-4">
+
+    {{if .IsNew}}
+    <div>
+        <label for="filename" class="block text-sm font-medium text-canopy mb-1">Filename</label>
+        <input type="text" id="filename" name="filename" required
+            placeholder="{{if .Placeholder}}{{.Placeholder}}{{else}}my-document.md{{end}}"
+            pattern="[a-z0-9]+(-[a-z0-9]+)*\.md"
+            class="w-full px-3 py-2 bg-forest-bg border border-sprout/30 rounded-lg text-soil font-mono text-sm focus:border-forest-green focus:outline-none">
+    </div>
+    {{end}}
+
+    <div>
+        <label for="content" class="block text-sm font-medium text-canopy mb-1">Content</label>
+        <textarea id="content" name="content" rows="{{.EditorRows}}"
+            placeholder="{{if .Placeholder}}{{.Placeholder}}{{else}}Write your markdown here...{{end}}"
+            class="w-full px-4 py-3 bg-forest-bg border border-sprout/30 rounded-lg text-soil font-mono text-sm leading-relaxed focus:border-forest-green focus:outline-none resize-y">{{.Content}}</textarea>
+    </div>
+
+    <div class="flex items-center gap-3 pt-2">
+        <button type="submit"
+            class="px-5 py-2 bg-forest-green text-white rounded-lg hover:bg-forest-green/80 transition-colors text-sm font-medium">
+            Save
+        </button>
+        <a href="{{.CancelURL}}"
+            {{if .Target}}hx-get="{{.CancelURL}}" hx-target="{{.Target}}"{{end}}
+            class="px-5 py-2 text-soil/60 hover:text-soil text-sm transition-colors">
+            Cancel
+        </a>
+    </div>
+</form>
+{{end}}
