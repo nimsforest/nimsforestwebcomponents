@@ -4,6 +4,7 @@
 package nwc
 
 import (
+	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -213,6 +214,50 @@ func NewRenderer(projectFS fs.FS, dir string, pages []string, extraFuncs templat
 		log.Fatalf("nwc: failed to read components.html: %v", err)
 	}
 
+	return r.buildTemplates(projectFS, dir, pages, nil, layoutBytes, componentsBytes, fm)
+}
+
+// NewRendererWithShared works like NewRenderer but also includes project-level
+// shared templates (e.g. sidebar.html) that are parsed into each page template set.
+func NewRendererWithShared(projectFS fs.FS, dir string, pages []string, shared []string, extraFuncs template.FuncMap, config AppConfig) *Renderer {
+	fm := FuncMap()
+	for k, v := range extraFuncs {
+		fm[k] = v
+	}
+
+	if config.Footer == "" {
+		config.Footer = "NimsForest"
+	}
+
+	r := &Renderer{
+		templates: make(map[string]*template.Template),
+		funcMap:   fm,
+		config:    config,
+	}
+
+	layoutBytes, err := fs.ReadFile(templates, "templates/layout.html")
+	if err != nil {
+		log.Fatalf("nwc: failed to read layout.html: %v", err)
+	}
+	componentsBytes, err := fs.ReadFile(templates, "templates/components.html")
+	if err != nil {
+		log.Fatalf("nwc: failed to read components.html: %v", err)
+	}
+
+	// Read project-level shared templates
+	var sharedBytes [][]byte
+	for _, s := range shared {
+		b, err := fs.ReadFile(projectFS, dir+"/"+s)
+		if err != nil {
+			log.Fatalf("nwc: failed to read shared template %s: %v", s, err)
+		}
+		sharedBytes = append(sharedBytes, b)
+	}
+
+	return r.buildTemplates(projectFS, dir, pages, sharedBytes, layoutBytes, componentsBytes, fm)
+}
+
+func (r *Renderer) buildTemplates(projectFS fs.FS, dir string, pages []string, sharedBytes [][]byte, layoutBytes, componentsBytes []byte, fm template.FuncMap) *Renderer {
 	for _, page := range pages {
 		path := dir + "/" + page
 		pageBytes, err := fs.ReadFile(projectFS, path)
@@ -223,6 +268,9 @@ func NewRenderer(projectFS fs.FS, dir string, pages []string, extraFuncs templat
 		t := template.New("layout.html").Funcs(fm)
 		template.Must(t.Parse(string(layoutBytes)))
 		template.Must(t.New("components.html").Parse(string(componentsBytes)))
+		for i, sb := range sharedBytes {
+			template.Must(t.New(fmt.Sprintf("shared_%d", i)).Parse(string(sb)))
+		}
 		template.Must(t.New(page).Parse(string(pageBytes)))
 
 		r.templates[page] = t
