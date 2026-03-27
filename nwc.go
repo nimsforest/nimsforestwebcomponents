@@ -19,12 +19,19 @@ type NavItem struct {
 	Href  string
 }
 
+// ChatWidgetConfig configures the embedded nim chat widget.
+type ChatWidgetConfig struct {
+	BaseURL    string // widget server URL, e.g. "https://chatwidget.nimsforest.mynimsforest.com"
+	DefaultNim string // optional default nim selection
+}
+
 // AppConfig configures the shared layout for a specific NimsForest application.
 type AppConfig struct {
-	Name     string    // displayed after "Nims" in header, e.g. "Organize", "Forest"
-	Emoji    string    // header emoji, e.g. "🌿", "🌲"
-	NavItems []NavItem // app-specific navigation links
-	Footer   string    // footer text (defaults to "NimsForest" if empty)
+	Name       string            // displayed after "Nims" in header, e.g. "Organize", "Forest"
+	Emoji      string            // header emoji, e.g. "🌿", "🌲"
+	NavItems   []NavItem         // app-specific navigation links
+	Footer     string            // footer text (defaults to "NimsForest" if empty)
+	ChatWidget *ChatWidgetConfig // nil = no chat widget
 }
 
 // Renderer composes shared layout templates with project-specific page templates.

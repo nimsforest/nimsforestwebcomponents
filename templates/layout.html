@@ -52,5 +52,14 @@
     });
     document.addEventListener('htmx:afterSwap', applyFilter);
     </script>
+    {{if .App.ChatWidget}}
+    <script>
+    window.nimschatwidgetConfig = {
+        baseURL: "{{.App.ChatWidget.BaseURL}}"{{if .App.ChatWidget.DefaultNim}},
+        defaultNim: "{{.App.ChatWidget.DefaultNim}}"{{end}}
+    };
+    </script>
+    <script src="{{.App.ChatWidget.BaseURL}}/widget"></script>
+    {{end}}
 </body>
 </html>
