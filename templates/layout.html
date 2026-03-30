@@ -54,11 +54,11 @@
     </script>
     {{if .App.ChatWidget}}
     <script>
-    window.nimschatwidgetConfig = {
+    window.nimschatwidgetConfig = Object.assign(window.nimschatwidgetConfig || {}, {
         baseURL: "{{.App.ChatWidget.BaseURL}}",
         webchatURL: "{{.App.ChatWidget.WebchatURL}}"{{if .App.ChatWidget.DefaultNim}},
         defaultNim: "{{.App.ChatWidget.DefaultNim}}"{{end}}
-    };
+    });
     </script>
     <script src="{{.App.ChatWidget.BaseURL}}/widget"></script>
     {{end}}
