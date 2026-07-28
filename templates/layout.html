@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
+    <link rel="icon" href="/static/nimsforest-mark.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="bg-forest-bg text-soil min-h-screen flex flex-col">
-    <header class="bg-white border-b border-sprout/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">{{.App.Emoji}}</span>
-                    <a href="/" class="text-xl font-bold">
-                        <span class="text-canopy">Nims</span><span class="text-solar-gold">{{.App.Name}}</span>
-                    </a>
-                </div>
+<body class="bg-paper text-body-text min-h-screen flex flex-col">
+    {{if .App.CreditStrip}}
+    <div class="bg-band-2 border-b border-hairline">
+        <div class="max-w-[1160px] mx-auto px-8 py-2 text-right font-mono text-[11.5px] text-mono-label">
+            {{.App.CreditStrip}}
+        </div>
+    </div>
+    {{end}}
+
+    <header class="sticky top-0 z-40 bg-paper/[0.92] backdrop-blur-[10px] border-b border-hairline">
+        <div class="max-w-[1160px] mx-auto px-8">
+            <div class="flex items-center justify-between gap-6 py-[18px]">
+                <a href="/" class="flex items-center gap-3 no-underline shrink-0">
+                    <span class="text-2xl" role="img" aria-label="Nimsforest">{{if .App.Emoji}}{{.App.Emoji}}{{else}}🌳{{end}}</span>
+                    <span class="text-[19px] font-semibold text-forest">Nimsforest</span>
+                    {{if and .App.Name (ne .App.Name "forest")}}
+                    <span class="text-[19px] text-muted">{{.App.Name}}</span>
+                    {{end}}
+                </a>
                 {{if .App.NavItems}}
-                <nav class="flex items-center gap-6 text-sm">
+                <nav class="flex items-center gap-6 text-[15px] whitespace-nowrap">
                     {{range .App.NavItems}}
-                    <a href="{{.Href}}" class="text-soil hover:text-forest-green transition-colors">{{.Label}}</a>
+                    {{if .Primary}}
+                    <a href="{{.Href}}" class="whitespace-nowrap rounded-full bg-forest px-6 py-2.5 text-paper no-underline hover:bg-ink hover:text-paper transition-colors">{{.Label}}</a>
+                    {{else}}
+                    <a href="{{.Href}}" class="text-muted no-underline hover:text-forest transition-colors">{{.Label}}</a>
+                    {{end}}
                     {{end}}
                 </nav>
                 {{end}}
@@ -27,13 +41,31 @@
         </div>
     </header>
 
+    {{if .App.FullBleed}}
+    <main class="flex-1 w-full">
+        {{template "content" .}}
+    </main>
+    {{else}}
     <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {{template "content" .}}
     </main>
+    {{end}}
 
-    <footer class="border-t border-sprout/30 py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-soil/60">
-            {{.App.Footer}}
+    <footer class="bg-band border-t border-hairline py-12">
+        <div class="max-w-[1160px] mx-auto px-8 flex flex-wrap items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                {{if .App.FooterMarks}}
+                <span class="flex gap-2 text-xl" aria-hidden="true">🌳 🍃 ✨</span>
+                {{end}}
+                <span class="text-sm text-body-text">{{if .App.Footer}}{{.App.Footer}}{{else}}NimsForest{{end}}</span>
+            </div>
+            {{if and .App.FooterNav .App.NavItems}}
+            <nav class="flex flex-wrap gap-6 text-sm">
+                {{range .App.NavItems}}
+                <a href="{{.Href}}" class="text-muted no-underline hover:text-forest transition-colors">{{.Label}}</a>
+                {{end}}
+            </nav>
+            {{end}}
         </div>
     </footer>
     <script src="/static/htmx.min.js"></script>

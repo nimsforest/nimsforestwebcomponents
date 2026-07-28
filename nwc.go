@@ -15,8 +15,9 @@ import (
 
 // NavItem represents a single navigation link in the app header.
 type NavItem struct {
-	Label string
-	Href  string
+	Label   string
+	Href    string
+	Primary bool // render as a filled pill rather than a plain link, e.g. "Get started"
 }
 
 // ChatWidgetConfig configures the embedded nim chat widget.
@@ -28,11 +29,15 @@ type ChatWidgetConfig struct {
 
 // AppConfig configures the shared layout for a specific NimsForest application.
 type AppConfig struct {
-	Name       string            // displayed after "Nims" in header, e.g. "Organize", "Forest"
-	Emoji      string            // header emoji, e.g. "🌿", "🌲"
-	NavItems   []NavItem         // app-specific navigation links
-	Footer     string            // footer text (defaults to "NimsForest" if empty)
-	ChatWidget *ChatWidgetConfig // nil = no chat widget
+	Name        string            // app label shown beside the wordmark, e.g. "Organize". Empty (or "forest") shows the wordmark alone
+	Emoji       string            // header emoji, defaults to the brand forest 🌳
+	NavItems    []NavItem         // app-specific navigation links
+	Footer      string            // footer text (defaults to "NimsForest" if empty)
+	CreditStrip string            // optional strip above the header, e.g. the marketing site's "created and maintained by Neo" line. Empty = no strip
+	FooterMarks bool              // show the 🌳 🍃 ✨ glyph row in the footer (marketing surfaces)
+	FooterNav   bool              // repeat NavItems as a link row in the footer
+	FullBleed   bool              // let pages own their own width, for full-width bands. Default keeps the centred container app pages expect
+	ChatWidget  *ChatWidgetConfig // nil = no chat widget
 }
 
 // Renderer composes shared layout templates with project-specific page templates.

@@ -1,0 +1,27 @@
+Noto Emoji artwork
+==================
+
+The emoji artwork in this folder (brand/emoji/*.svg, and the glyphs embedded in
+the Nimsforest lockup files) is taken from Google's Noto Emoji project.
+
+    Source:  https://github.com/googlefonts/noto-emoji
+    Licence: Apache License, Version 2.0
+    Notice:  Copyright Google LLC
+
+You may use, modify and redistribute it, including commercially, provided this
+notice and a copy of the Apache 2.0 licence travel with it. The full licence
+text is available at:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Nimsforest wordmark and lockups
+-------------------------------
+
+The wordmark is set in Figtree (SIL Open Font License 1.1) and the composition
+of glyph plus wordmark is Nimsforest BV's own. The Apache 2.0 licence covers the
+emoji artwork only; it grants no rights in the Nimsforest name or lockup.
+
+Note on exclusivity: no open emoji set is exclusive to us. The distinctive,
+registrable part of the identity is the lockup and the wordmark, not the tree.
+
+    Nimsforest BV · nimsforest.com · brand@nimsforest.com
