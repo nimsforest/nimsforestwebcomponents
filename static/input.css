@@ -3,6 +3,20 @@
    nothing about a visitor leaks to a third party on page load.
    Files come from Google Fonts (Open Font License), latin + latin-ext subsets. */
 
+/* Brand emoji, last resort only. The identity is emoji, so a visitor on a
+   platform with no emoji font would otherwise see the whole brand as empty
+   boxes. Platform emoji fonts are listed ahead of this one in the stack, so
+   native glyphs still win everywhere they exist. Subset to the ten glyphs the
+   brand uses: 7 KB rather than the full ~10 MB family. */
+@font-face {
+    font-family: "Nimsforest Emoji";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/static/fonts/noto-color-emoji-brand.woff2") format("woff2");
+    unicode-range: U+2728, U+1F30A, U+1F331, U+1F333, U+1F342-1F343, U+1F3E1, U+1F4A7, U+1F642, U+1F916;
+}
+
 @font-face {
     font-family: 'Instrument Serif';
     font-style: italic;
@@ -135,7 +149,8 @@
 
 @layer base {
     body {
-        font-family: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+        font-family: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Nimsforest Emoji";
         text-wrap: pretty;
     }
 
