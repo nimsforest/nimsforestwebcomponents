@@ -51,6 +51,24 @@ into `static/fonts/`, add the matching `@font-face` block with the same
 `unicode-range`, then `make css`.
 
 Emoji are typed as Unicode characters and drawn by the viewer's platform font.
+`static/fonts/noto-color-emoji-brand.woff2` (7 KB) sits at the **end** of the
+body font stack as a last resort, so a visitor on a platform with no emoji font
+sees the brand rather than empty boxes. Everywhere a platform emoji font exists
+it wins, because those families are listed ahead of it.
+
+To add a glyph to that subset, re-request it with every glyph the brand uses,
+not just the new one, or the others drop out:
+
+```bash
+curl -sG -A "<modern browser UA>" \
+  --data-urlencode "family=Noto Color Emoji" \
+  --data-urlencode "text=🌳🍃✨💧🌊🍂🏡🙂🤖🌱" \
+  https://fonts.googleapis.com/css2
+```
+
+Then download the woff2 it points at, replace the file, and widen the
+`unicode-range` in `input.css` to match.
+
 The SVG artwork in the brand kit is for print and fixed artwork; the one
 exception is `static/nimsforest-mark.svg`, the favicon, which is referenced by
 the layout. Its artwork derives from Noto Emoji: keep
