@@ -60,9 +60,9 @@ module.exports = {
         'sprout': '#B9C6BA',            // was #A8D5A2. Used at /30-/40 for borders, so it has to stay soft
       },
       fontFamily: {
-        display: ['Instrument Serif', 'ui-serif', 'Georgia', 'serif'],
-        sans: ['Figtree', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['IBM Plex Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['Instrument Serif', 'ui-serif', 'Georgia', 'serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Nimsforest Emoji'],
+        sans: ['Figtree', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Nimsforest Emoji'],
+        mono: ['IBM Plex Mono', 'ui-monospace', 'SFMono-Regular', 'monospace', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Nimsforest Emoji'],
       },
       letterSpacing: {
         eyebrow: '0.15em',

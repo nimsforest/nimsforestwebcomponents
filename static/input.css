@@ -14,7 +14,7 @@
     font-weight: 400;
     font-display: swap;
     src: url("/static/fonts/noto-color-emoji-brand.woff2") format("woff2");
-    unicode-range: U+2728, U+1F30A, U+1F331, U+1F333, U+1F342-1F343, U+1F3E1, U+1F4A7, U+1F642, U+1F916;
+    unicode-range: U+2728, U+1F30A, U+1F331, U+1F333, U+1F342-1F343, U+1F3E1, U+1F44D, U+1F4A7, U+1F642, U+1F916;
 }
 
 @font-face {
