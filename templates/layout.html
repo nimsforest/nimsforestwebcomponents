@@ -6,7 +6,8 @@
     <title>{{.Title}}</title>
     <link rel="icon" href="/static/nimsforest-mark.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/static/style.css">
-</head>
+{{range .App.Stylesheets}}    <link rel="stylesheet" href="{{.}}">
+{{end}}</head>
 <body class="bg-paper text-body-text min-h-screen flex flex-col">
     {{if .App.CreditStrip}}
     <div class="bg-band-2 border-b border-hairline">

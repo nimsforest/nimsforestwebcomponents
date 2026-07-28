@@ -37,6 +37,7 @@ type AppConfig struct {
 	FooterMarks bool              // show the 🌳 🍃 ✨ glyph row in the footer (marketing surfaces)
 	FooterNav   bool              // repeat NavItems as a link row in the footer
 	FullBleed   bool              // let pages own their own width, for full-width bands. Default keeps the centred container app pages expect
+	Stylesheets []string          // extra stylesheet paths, loaded after the shared one, e.g. "/static/marketing.css"
 	ChatWidget  *ChatWidgetConfig // nil = no chat widget
 }
 
@@ -125,8 +126,8 @@ func FuncMap() template.FuncMap {
 			}
 			return t.UTC().Format("2006-01-02 15:04:05 UTC")
 		},
-		"lower": strings.ToLower,
-		"add":   func(a, b int) int { return a + b },
+		"lower":          strings.ToLower,
+		"add":            func(a, b int) int { return a + b },
 		"renderMarkdown": RenderMarkdown,
 		"dict": func(pairs ...any) map[string]any {
 			m := make(map[string]any, len(pairs)/2)
