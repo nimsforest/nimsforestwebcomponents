@@ -69,6 +69,7 @@ the layout. Its artwork derives from Noto Emoji: keep
 | `FooterMarks` | Show the 🌳 🍃 ✨ row in the footer |
 | `FooterNav` | Repeat NavItems as a footer link row |
 | `FullBleed` | Let pages own their width, for full-width bands. Default keeps the centred container that app pages expect |
+| `Stylesheets` | Extra stylesheet paths, linked after the shared one. For page-level CSS that does not belong in the shared Tailwind build |
 
 `FullBleed` is the one to watch: app page templates assume the layout supplies
 the `max-w-7xl` container and padding. Turning it on without giving each page
