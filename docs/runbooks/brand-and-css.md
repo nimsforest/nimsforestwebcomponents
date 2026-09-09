@@ -95,11 +95,19 @@ its own container leaves content edge to edge.
 
 ## Releasing
 
-Consumers pin nwc by version in their `go.mod` (they are not all on the same
-one), so a change here reaches each app only when that app bumps. Tag, then bump
-the apps you intend to restyle:
+Since #332 the consumer release workflows resolve
+`nimsforestwebcomponents@latest` at build time, so a tag here reaches every app
+on that app's next release, no go.mod bump needed. The go.mod pins downstream
+are only floors for local development. Tag, then re-release and replant the
+apps you want restyled now:
 
 ```bash
-git tag v0.19.0 && git push origin v0.19.0
-cd ../<app> && go get github.com/nimsforest/nimsforestwebcomponents@v0.19.0
+git tag v0.19.1 && git push origin v0.19.1
+cd ../<app> && git tag v<next> && git push origin v<next>
+# wait for that app's CI, then: land plant <app> --config /etc/land.yaml
 ```
+
+The consumer workflows read the module with the `GOPRIVATE_TOKEN` Actions
+secret (grove and organize also accept their older `GO_MODULE_TOKEN`). A repo
+without the secret falls back to proxy.golang.org, which only carries versions
+cached from before the repos went private and cannot serve anything newer.
