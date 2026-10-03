@@ -18,9 +18,13 @@
     {{end}}
 
     <header class="sticky top-0 z-40 bg-paper/[0.92] backdrop-blur-[10px] border-b border-hairline">
-        <div class="max-w-[1160px] mx-auto px-8">
-            <div class="flex items-center justify-between gap-6 py-[18px]">
-                <a href="/" class="flex items-center gap-3 no-underline shrink-0">
+        <div class="max-w-[1160px] mx-auto px-5 sm:px-8">
+            <!-- Wraps on a phone. The row used to be rigid: px-8 both sides, a
+                 shrink-0 brand and a nowrap nav, which on a 390px screen came
+                 to about 444px and pushed the last nav item off the right edge
+                 with no way to reach it. -->
+            <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-[18px]">
+                <a href="/" class="flex items-center gap-2 sm:gap-3 no-underline min-w-0">
                     <span class="text-2xl" role="img" aria-label="Nimsforest">{{if .App.Emoji}}{{.App.Emoji}}{{else}}🌳{{end}}</span>
                     <span class="text-[19px] font-semibold text-forest">Nimsforest</span>
                     {{if and .App.Name (ne .App.Name "forest")}}
@@ -28,7 +32,7 @@
                     {{end}}
                 </a>
                 {{if .App.NavItems}}
-                <nav class="flex items-center gap-6 text-[15px] whitespace-nowrap">
+                <nav class="flex flex-wrap items-center gap-x-5 sm:gap-x-6 gap-y-2 text-[15px]">
                     {{range .App.NavItems}}
                     {{if .Primary}}
                     <a href="{{.Href}}" class="whitespace-nowrap rounded-full bg-forest px-6 py-2.5 text-paper no-underline hover:bg-ink hover:text-paper transition-colors">{{.Label}}</a>
